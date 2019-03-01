@@ -43,6 +43,7 @@
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.4.0",
     "slug": "^0.9.1",
+    "tslint": "^5.13.1",
     "typeorm": "^0.2.12",
     "typescript": "^3.3.1",
     "winston": "^3.2.1",

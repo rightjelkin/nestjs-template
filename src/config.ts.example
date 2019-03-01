@@ -5,4 +5,4 @@ export const loggerSettings = {
   logLevel: 'info',
   serviceName: 'Logger',
   logAppenders: 'console',
-}
+};

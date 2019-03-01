@@ -6,6 +6,6 @@ export interface LoggerInterface {
 }
 
 export enum LoggerTransport {
-  CONSOLE = "console",
-  ROTATE = "rotate",
+  CONSOLE = 'console',
+  ROTATE = 'rotate',
 }

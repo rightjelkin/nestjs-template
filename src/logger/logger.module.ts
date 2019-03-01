@@ -1,6 +1,7 @@
-import { Module, Global } from "@nestjs/common";
-import { LoggerService } from '../logger/logger.service'
-import { LoggerTransport } from '../logger/logger.interface'
+import { Global, Module } from '@nestjs/common';
+
+import { LoggerTransport } from '../logger/logger.interface';
+import { LoggerService } from '../logger/logger.service';
 
 @Module({
   providers: [

@@ -1,7 +1,7 @@
 import * as clc from 'cli-color';
-import { format } from 'winston';
 import * as winston from 'winston';
 import * as DailyRotateFile from 'winston-daily-rotate-file';
+
 import { LoggerTransport } from './logger.interface';
 
 export class LoggerService {
@@ -15,9 +15,9 @@ export class LoggerService {
     serviceName: string,
     loggers: LoggerTransport[],
     path?: string,
-    timeFormat: string = "YYYY-MM-DD HH:mm:ss",
-    fileDatePattern: string = "YYYY-MM-DD",
-    maxFiles: string = "10d",
+    timeFormat: string = 'YYYY-MM-DD HH:mm:ss',
+    fileDatePattern: string = 'YYYY-MM-DD',
+    maxFiles: string = '10d',
     zippedArchive: boolean = false) {
     const transports = [];
     if (loggers && loggers.indexOf(LoggerTransport.CONSOLE) >= 0) {
@@ -29,7 +29,7 @@ export class LoggerService {
         datePattern: fileDatePattern,
         zippedArchive,
         maxFiles,
-        options: { flags: "a", mode: "0776" },
+        options: { flags: 'a', mode: '0776' },
       });
       transports.push(rotateLogger);
     }
@@ -40,60 +40,60 @@ export class LoggerService {
           format.timestamp({
             format: timeFormat,
           }),
-          this.getLoggerFormat(),
+          this.getLoggerFormat()
       ),
       transports,
   });
   }
 
-  setRequestId(id: string) {
+  public setRequestId(id: string): void {
     this.requestId = id;
   }
 
-  getRequestId() {
+  public getRequestId(): string {
     return this.requestId;
   }
 
-  setContext(ctx: string) {
+  public setContext(ctx: string): void {
     this.context = ctx;
   }
 
-  log(msg: any, context?: string) {
+  public log(msg: any, context?: string): void {
     this.info(msg, context);
   }
 
-  debug(msg: any, context?: string) {
+  public debug(msg: any, context?: string): void {
     this.logger.debug(msg, [{ context, reqId: this.requestId }]);
   }
 
-  info(msg: any, context?: string) {
+  public info(msg: any, context?: string): void {
     this.logger.info(msg, [{ context, reqId: this.requestId }]);
   }
 
-  warn(msg: any, context?: string) {
+  public warn(msg: any, context?: string): void {
     this.logger.warn(msg, [{ context, reqId: this.requestId }]);
   }
 
-  error(msg: any, trace?: string, context?: string) {
+  public error(msg: any, trace?: string, context?: string): void {
     this.logger.error(msg, [{ context }]);
     this.logger.error(trace, [{ context, reqId: this.requestId }]);
   }
 
-  private getLoggerFormat() {
+  private getLoggerFormat(): void {
     return format.printf(info => {
       const level = this.colorizeLevel(info.level);
       let message = info.message;
-      if (typeof info.message === "object") {
-          message = JSON.stringify(message, null, 3);
+      if (typeof info.message === 'object') {
+          message = JSON.stringify(message, undefined, 3);
       }
-      let reqId: string = "";
-      let context: string = "";
-      if (info["0"]) {
-        const meta = info["0"];
+      let reqId = '';
+      let context = '';
+      if (info['0']) {
+        const meta = info['0'];
         if (meta.reqId) {
           reqId = clc.cyan(`[${meta.reqId}]`);
         }
-        const ctx = meta.context || this.context || null;
+        const ctx = meta.context || this.context || undefined;
         if (ctx) {
           context = clc.blackBright(`[${ctx.substr(0, 20)}]`).padEnd(32);
         }
@@ -103,19 +103,20 @@ export class LoggerService {
     });
   }
 
-  private colorizeLevel(level: string) {
+  private colorizeLevel(level: string): string {
     let colorFunc: (msg: string) => string;
     switch (level) {
-      case "debug":
+      default:
+      case 'debug':
         colorFunc = (msg) => clc.blue(msg);
         break;
-      case "info":
+      case 'info':
         colorFunc = (msg) => clc.green(msg);
         break;
-      case "warn":
+      case 'warn':
         colorFunc = (msg) => clc.yellow(msg);
         break;
-      case "error":
+      case 'error':
         colorFunc = (msg) => clc.red(msg);
         break;
     }
