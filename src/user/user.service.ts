@@ -10,6 +10,7 @@ import { validate } from 'class-validator';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { HttpStatus } from '@nestjs/common';
 import * as crypto from 'crypto';
+import { Logger } from '@nestjs/common'
 
 @Injectable()
 export class UserService {
@@ -17,6 +18,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>
   ) {}
+  private readonly logger = new Logger(UserService.name)
 
   async findAll(): Promise<UserEntity[]> {
     return await this.userRepository.find();
@@ -32,7 +34,6 @@ export class UserService {
   }
 
   async create(dto: CreateUserDto): Promise<UserRO> {
-
     // check uniqueness of username/email
     const {username, email, password} = dto;
     const qb = await getRepository(UserEntity)

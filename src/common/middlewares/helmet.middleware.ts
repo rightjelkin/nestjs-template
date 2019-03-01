@@ -1,12 +1,11 @@
-import { Middleware, NestMiddleware } from '@nestjs/common';
+import { NestMiddleware, Injectable } from '@nestjs/common';
 import * as helmet from 'helmet';
 
-@Middleware()
+@Injectable()
 export class HelmetMiddleware implements NestMiddleware {
   public resolve(
     options?: helmet.IHelmetConfiguration,
   ): (req: any, res: any, next: any) => void {
-    console.log('spulaemulae')
     return helmet(options);
   }
 }
