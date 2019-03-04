@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "start:watch": "nodemon",
-    "prestart:prod": "tsc",
+    "lint": "./node_modules/.bin/tslint -p tsconfig.json",
+    "compile": "tsc",
     "start:prod": "node dist/main.js",
     "test": "jest --config=jest.json",
     "test:watch": "jest --watch --config=jest.json",
